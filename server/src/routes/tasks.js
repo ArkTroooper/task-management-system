@@ -2,11 +2,13 @@ const express = require('express');
 const { body } = require('express-validator');
 const authMiddleware = require('../middleware/auth');
 const taskController = require('../controllers/taskController');
+const { operationsLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
-// All routes require authentication
+// All routes require authentication and rate limiting
 router.use(authMiddleware);
+router.use(operationsLimiter);
 
 // Get tasks for a project
 router.get('/project/:id', taskController.getProjectTasks);
