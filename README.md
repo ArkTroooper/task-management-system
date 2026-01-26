@@ -95,6 +95,19 @@ npm run dev
 
 Visit `http://localhost:5173` to access the application!
 
+## Verify Setup
+
+Run the setup check script to verify everything is configured correctly:
+
+```bash
+./check-setup.sh
+```
+
+This will check:
+- PostgreSQL connection
+- Dependencies installation
+- Environment configuration
+
 ## Installation
 
 ### 1. Clone the Repository
@@ -272,6 +285,10 @@ The built files will be in the `client/dist` directory.
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and how to contribute to the project.
 
 ## License
 
