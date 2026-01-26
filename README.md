@@ -1,2 +1,2 @@
 # task-management-system
-Task management for a IT Specialist
+Task management for an IT Specialist
