@@ -69,7 +69,31 @@ task-management-system/
 Before you begin, ensure you have the following installed:
 - **Node.js** (v16 or higher)
 - **npm** or **yarn**
-- **PostgreSQL** (v12 or higher)
+- **PostgreSQL** (v12 or higher) OR **Docker** and **Docker Compose**
+
+## Quick Start with Docker
+
+The easiest way to get started is using Docker:
+
+```bash
+# Start PostgreSQL database
+docker-compose up -d
+
+# Wait a few seconds for the database to initialize
+sleep 5
+
+# Install and start backend
+cd server
+npm install
+npm run dev
+
+# In a new terminal, install and start frontend
+cd client
+npm install
+npm run dev
+```
+
+Visit `http://localhost:5173` to access the application!
 
 ## Installation
 
