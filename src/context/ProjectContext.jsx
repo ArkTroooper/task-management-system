@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useReducer, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import * as projectService from '../services/project.service';
@@ -106,34 +107,22 @@ export const ProjectProvider = ({ children }) => {
 
   // Create project
   const createProject = useCallback(async (projectData) => {
-    try {
-      const data = await projectService.createProject(projectData);
-      dispatch({ type: PROJECT_ACTIONS.ADD_PROJECT, payload: data });
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await projectService.createProject(projectData);
+    dispatch({ type: PROJECT_ACTIONS.ADD_PROJECT, payload: data });
+    return data;
   }, []);
 
   // Update project
   const updateProject = useCallback(async (projectId, projectData) => {
-    try {
-      const data = await projectService.updateProject(projectId, projectData);
-      dispatch({ type: PROJECT_ACTIONS.UPDATE_PROJECT, payload: data });
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await projectService.updateProject(projectId, projectData);
+    dispatch({ type: PROJECT_ACTIONS.UPDATE_PROJECT, payload: data });
+    return data;
   }, []);
 
   // Delete project
   const deleteProject = useCallback(async (projectId) => {
-    try {
-      await projectService.deleteProject(projectId);
-      dispatch({ type: PROJECT_ACTIONS.DELETE_PROJECT, payload: projectId });
-    } catch (error) {
-      throw error;
-    }
+    await projectService.deleteProject(projectId);
+    dispatch({ type: PROJECT_ACTIONS.DELETE_PROJECT, payload: projectId });
   }, []);
 
   const value = {

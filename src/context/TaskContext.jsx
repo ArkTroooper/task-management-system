@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useReducer, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import * as taskService from '../services/task.service';
@@ -91,45 +92,29 @@ export const TaskProvider = ({ children }) => {
 
   // Create task
   const createTask = useCallback(async (taskData) => {
-    try {
-      const data = await taskService.createTask(taskData);
-      dispatch({ type: TASK_ACTIONS.ADD_TASK, payload: data });
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await taskService.createTask(taskData);
+    dispatch({ type: TASK_ACTIONS.ADD_TASK, payload: data });
+    return data;
   }, []);
 
   // Update task
   const updateTask = useCallback(async (taskId, taskData) => {
-    try {
-      const data = await taskService.updateTask(taskId, taskData);
-      dispatch({ type: TASK_ACTIONS.UPDATE_TASK, payload: data });
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await taskService.updateTask(taskId, taskData);
+    dispatch({ type: TASK_ACTIONS.UPDATE_TASK, payload: data });
+    return data;
   }, []);
 
   // Delete task
   const deleteTask = useCallback(async (taskId) => {
-    try {
-      await taskService.deleteTask(taskId);
-      dispatch({ type: TASK_ACTIONS.DELETE_TASK, payload: taskId });
-    } catch (error) {
-      throw error;
-    }
+    await taskService.deleteTask(taskId);
+    dispatch({ type: TASK_ACTIONS.DELETE_TASK, payload: taskId });
   }, []);
 
   // Move task
   const moveTask = useCallback(async (taskId, newStatus, newPosition) => {
-    try {
-      const data = await taskService.moveTask(taskId, newStatus, newPosition);
-      dispatch({ type: TASK_ACTIONS.MOVE_TASK, payload: data });
-      return data;
-    } catch (error) {
-      throw error;
-    }
+    const data = await taskService.moveTask(taskId, newStatus, newPosition);
+    dispatch({ type: TASK_ACTIONS.MOVE_TASK, payload: data });
+    return data;
   }, []);
 
   const value = {

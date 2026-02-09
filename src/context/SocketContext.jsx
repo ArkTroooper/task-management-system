@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
@@ -46,6 +47,8 @@ export const SocketProvider = ({ children }) => {
       console.error('Reconnection failed');
     });
 
+    // Set socket after all event listeners are attached
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(newSocket);
 
     return () => {

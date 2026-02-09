@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as authService from '../services/auth.service';
@@ -81,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const userData = await authService.verifyToken();
           dispatch({ type: AUTH_ACTIONS.SET_USER, payload: userData });
-        } catch (error) {
+        } catch {
           dispatch({ type: AUTH_ACTIONS.LOGOUT });
         }
       }
