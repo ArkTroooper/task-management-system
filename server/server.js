@@ -93,7 +93,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 // Graceful shutdown
-const gracefulShutdown = () => {
+const gracefulShutdown = async () => {
   console.log('\nReceived shutdown signal, closing server gracefully...');
   
   server.close(() => {
@@ -101,10 +101,15 @@ const gracefulShutdown = () => {
     
     // Close database connection
     const mongoose = require('mongoose');
-    mongoose.connection.close(false, () => {
-      console.log('MongoDB connection closed');
-      process.exit(0);
-    });
+    mongoose.connection.close()
+      .then(() => {
+        console.log('MongoDB connection closed');
+        process.exit(0);
+      })
+      .catch((err) => {
+        console.error('Error closing MongoDB connection:', err);
+        process.exit(1);
+      });
   });
 
   // Force close after 10 seconds
@@ -123,8 +128,8 @@ server.listen(PORT, () => {
 ╔═══════════════════════════════════════════════╗
 ║  Task Management System - Backend Server     ║
 ╠═══════════════════════════════════════════════╣
-║  Port: ${PORT}                                   ║
-║  Environment: ${process.env.NODE_ENV || 'development'}                    ║
+║  Port: ${String(PORT).padEnd(39)}║
+║  Environment: ${String(process.env.NODE_ENV || 'development').padEnd(32)}║
 ║  Socket.io: Enabled                           ║
 ╚═══════════════════════════════════════════════╝
   `);

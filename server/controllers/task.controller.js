@@ -245,17 +245,25 @@ const moveTask = async (req, res, next) => {
 
     // If status changed, reorder other tasks
     if (status && oldStatus !== status) {
-      // Update order of other tasks in the new status
+      // Update order of other tasks in the new status using bulkWrite
       const tasksInNewStatus = await Task.find({ 
         project: task.project, 
         status,
         _id: { $ne: task._id }
       }).sort({ order: 1 });
 
-      for (let i = 0; i < tasksInNewStatus.length; i++) {
-        if (tasksInNewStatus[i].order >= order) {
-          tasksInNewStatus[i].order = i + 1 + (i >= order ? 1 : 0);
-          await tasksInNewStatus[i].save();
+      if (tasksInNewStatus.length > 0) {
+        const bulkOps = tasksInNewStatus
+          .filter(t => t.order >= order)
+          .map((t, index) => ({
+            updateOne: {
+              filter: { _id: t._id },
+              update: { $set: { order: t.order >= order ? index + 1 + (index >= order ? 1 : 0) : t.order } }
+            }
+          }));
+
+        if (bulkOps.length > 0) {
+          await Task.bulkWrite(bulkOps);
         }
       }
     }
