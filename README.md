@@ -6,7 +6,7 @@ A full-stack task management application with React frontend and Node.js backend
 
 ```
 task-management-system/
-├── Frontend/          # React application with Vite
+├── client/            # React application with Vite
 │   ├── src/          # React components, hooks, services
 │   ├── public/       # Static assets
 │   └── package.json  # Frontend dependencies
@@ -63,9 +63,9 @@ The backend will start on `http://localhost:5000`
 
 ### Frontend Setup
 
-1. Navigate to the Frontend directory:
+1. Navigate to the client directory:
    ```bash
-   cd Frontend
+   cd client
    ```
 
 2. Install dependencies:
@@ -197,6 +197,29 @@ Socket.io provides real-time updates for:
 - createdBy (User reference)
 - timestamps
 
+## 🌱 Seeding
+
+Populate the database with sample data for local development.
+
+**Prerequisites:** MongoDB must be running and `MONGODB_URI` must be set in `server/.env`.
+
+```bash
+cd server
+
+# Seed without wiping (idempotent — safe to run multiple times)
+npm run seed
+
+# Wipe all data then re-seed from scratch
+npm run seed:wipe
+```
+
+Seeding creates:
+- Dev user: `dev@example.com` / `Password123!`
+- Demo project owned by the dev user
+- 5 sample tasks across `todo`, `inprogress`, and `done` statuses
+
+> MongoDB collections are created automatically on first write, but running `npm run seed` is recommended to bootstrap a working local environment.
+
 ## 🧪 Testing
 
 ### Backend Testing
@@ -224,7 +247,7 @@ Use Postman, Insomnia, or cURL to test API endpoints. See [server/README.md](ser
 
 1. Build the production bundle:
    ```bash
-   cd Frontend
+   cd client
    npm run build
    ```
 

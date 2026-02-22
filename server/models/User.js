@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -40,6 +41,23 @@ userSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
+
+// Hash password before saving if new or modified
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Compare plain-text password with stored hash
+userSchema.methods.comparePassword = function(plainPassword) {
+  return bcrypt.compare(plainPassword, this.password);
+};
 
 // Don't return password in JSON responses
 userSchema.methods.toJSON = function() {

@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 const { sendSuccess, sendError } = require('../utils/responseHandler');
@@ -23,15 +22,11 @@ const register = async (req, res, next) => {
       }
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user
+    // Create new user (password hashed by model pre-save hook)
     const user = await User.create({
       username,
       email,
-      password: hashedPassword
+      password
     });
 
     // Generate token
@@ -59,7 +54,7 @@ const login = async (req, res, next) => {
     }
 
     // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     
     if (!isMatch) {
       return sendError(res, 'Invalid credentials', 401);
