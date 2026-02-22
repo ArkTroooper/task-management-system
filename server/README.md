@@ -82,6 +82,45 @@ npm start
 
 The server will start on `http://localhost:5000` (or your configured PORT)
 
+## 🌱 Database Seeding
+
+Seeding bootstraps the database with a dev user, a demo project, and sample tasks.
+
+### Prerequisites
+
+Ensure `server/.env` contains a valid `MONGODB_URI`:
+```env
+MONGODB_URI=mongodb://localhost:27017/taskmanagement
+# or MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/taskmanagement
+```
+
+MongoDB collections are created automatically on first write — no manual setup needed.
+
+### Local MongoDB quick-start
+
+- **Windows**: Install from [mongodb.com/try/download/community](https://www.mongodb.com/try/download/community) and start with `mongod`
+- **macOS**: `brew tap mongodb/brew && brew install mongodb-community && brew services start mongodb-community`
+- **Linux**: Follow the [official docs](https://www.mongodb.com/docs/manual/administration/install-on-linux/) for your distro, then `sudo systemctl start mongod`
+
+### Running the seed
+
+```bash
+# From the server/ directory
+
+# First-time or idempotent (safe to re-run — skips already-existing records)
+npm run seed
+
+# Wipe all User/Project/Task data and re-seed from scratch
+npm run seed:wipe
+```
+
+After seeding, use these credentials with the auth endpoints:
+```
+Email:    dev@example.com
+Password: Password123!
+```
+
 ## 📚 API Documentation
 
 ### Base URL
@@ -409,6 +448,8 @@ server/
 ├── utils/
 │   ├── generateToken.js      # JWT token generation
 │   └── responseHandler.js    # Standardized API responses
+├── scripts/
+│   └── seed.js               # Database seed script
 ├── .env.example              # Example environment variables
 ├── package.json              # Dependencies
 ├── server.js                 # Entry point

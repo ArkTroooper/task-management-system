@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const connectDB = require('../config/db');
 
@@ -35,10 +36,12 @@ const seed = async () => {
   let user = await User.findOne({ email: devEmail });
   if (!user) {
     console.log('👤 Creating dev user...');
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash('Password123!', salt);
     user = await User.create({
       username: 'dev',
       email: devEmail,
-      password: 'Password123!' // assumes your User model hashes this in a pre-save hook
+      password: hashedPassword
     });
   } else {
     console.log('👤 Dev user already exists.');
@@ -104,6 +107,10 @@ const seed = async () => {
   } else {
     console.log(`🧩 Tasks already exist for this project (${existingTaskCount}). Skipping task insert.`);
   }
+
+  // Ensure indexes are up to date
+  await Task.syncIndexes();
+  console.log('📑 Task indexes synced.');
 
   console.log('✅ Seed complete.');
   console.log(`Dev login: ${devEmail} / Password123!`);

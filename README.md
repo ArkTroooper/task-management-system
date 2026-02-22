@@ -6,7 +6,7 @@ A full-stack task management application with React frontend and Node.js backend
 
 ```
 task-management-system/
-├── Frontend/          # React application with Vite
+├── client/            # React application with Vite
 │   ├── src/          # React components, hooks, services
 │   ├── public/       # Static assets
 │   └── package.json  # Frontend dependencies
@@ -59,13 +59,23 @@ task-management-system/
    npm run dev
    ```
 
+7. (Optional) Seed the database with sample data:
+   ```bash
+   # First-time or idempotent seed
+   npm run seed
+
+   # Wipe existing data and re-seed from scratch
+   npm run seed:wipe
+   ```
+   After seeding, log in with `dev@example.com` / `Password123!`.
+
 The backend will start on `http://localhost:5000`
 
 ### Frontend Setup
 
-1. Navigate to the Frontend directory:
+1. Navigate to the client directory:
    ```bash
-   cd Frontend
+   cd client
    ```
 
 2. Install dependencies:
@@ -224,7 +234,7 @@ Use Postman, Insomnia, or cURL to test API endpoints. See [server/README.md](ser
 
 1. Build the production bundle:
    ```bash
-   cd Frontend
+   cd client
    npm run build
    ```
 
