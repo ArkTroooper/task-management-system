@@ -15,13 +15,19 @@ const authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
+    
+    console.log('🔍 Verifying token...');
+    console.log('JWT_SECRET exists:', !!process.env.JWT_SECRET);
+    console.log('JWT_SECRET value:', process.env.JWT_SECRET);
 
     try {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log('✅ Token decoded successfully:', decoded);
       
       // Get user from database
       const user = await User.findById(decoded.id).select('-password');
+      console.log('👤 User lookup result:', user ? `Found: ${user.email}` : 'NOT FOUND');
       
       if (!user) {
         return sendError(res, 'User not found', 401);
@@ -31,6 +37,8 @@ const authenticate = async (req, res, next) => {
       req.user = user;
       next();
     } catch (error) {
+      console.error('❌ Token verification failed:', error.message);
+      console.error('Error type:', error.name);
       if (error.name === 'TokenExpiredError') {
         return sendError(res, 'Token has expired', 401);
       }

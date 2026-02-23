@@ -76,19 +76,20 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Verify token on mount
-  useEffect(() => {
-    const verifyAuth = async () => {
-      if (state.isAuthenticated) {
-        try {
-          const userData = await authService.verifyToken();
-          dispatch({ type: AUTH_ACTIONS.SET_USER, payload: userData });
-        } catch {
-          dispatch({ type: AUTH_ACTIONS.LOGOUT });
-        }
+useEffect(() => {
+  const verifyAuth = async () => {
+    if (state.isAuthenticated) {
+      try {
+        const user = await authService.verifyToken();
+        dispatch({ type: AUTH_ACTIONS.SET_USER, payload: user });
+      } catch (error) {
+        console.error('Token verification failed:', error);
+        dispatch({ type: AUTH_ACTIONS.LOGOUT });
       }
-    };
-    verifyAuth();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }
+  };
+  verifyAuth();
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Login
   const login = async (email, password) => {

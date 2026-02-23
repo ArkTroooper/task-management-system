@@ -31,7 +31,8 @@ export const logout = () => {
 export const verifyToken = async () => {
   try {
     const response = await api.get('/auth/verify');
-    return response.data;
+    // Backend wraps response in { success, data: { user }, message }
+    return response.data.data.user;  // Extract the user object
   } catch (error) {
     logout();
     throw error;
