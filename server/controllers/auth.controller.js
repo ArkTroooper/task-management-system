@@ -66,7 +66,7 @@ const login = async (req, res, next) => {
     // Remove password from response
     user.password = undefined;
 
-    sendSuccess(res, { user, token }, 'Login successful');
+    sendSuccess(res, { user, token }, 'Login successful', 200);
   } catch (error) {
     next(error);
   }

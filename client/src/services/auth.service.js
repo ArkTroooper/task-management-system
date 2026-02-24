@@ -5,10 +5,19 @@ import { STORAGE_KEYS } from '../utils/constants';
 export const login = async (email, password) => {
   const response = await api.post('/auth/login', { email, password });
   // Backend wraps in { success, data: { token, user } }
+  console.log('🔍 Login response:', response);
+  console.log('🔍 response.data:', response.data);
+  console.log('🔍 response.data.data:', response.data?.data);
   const { token, user } = response.data?.data || response.data || {};
+  console.log('🔍 Extracted token:', token);
+  console.log('🔍 Extracted user:', user);
+  
   if (token) {
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+        console.log('✅ Token saved to localStorage');
+  } else{
+        console.error('❌ No token found in response!');
   }
   return response.data?.data || response.data;
 };

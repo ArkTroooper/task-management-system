@@ -63,12 +63,12 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map((project) => (
                   <div
-                    key={project.id}
+                    key={project._id}
                     onClick={() => handleProjectClick(project.id)}
                     className="card p-6 cursor-pointer hover:shadow-2xl transition-all hover:scale-105"
                   >
                     <h3 className="text-xl font-semibold text-text-secondary mb-2">
-                      {project.name}
+                      {project.title}
                     </h3>
                     <p className="text-text-muted text-sm mb-4">
                       {truncateText(project.description, 100)}
