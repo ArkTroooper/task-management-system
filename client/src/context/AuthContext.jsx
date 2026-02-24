@@ -84,7 +84,10 @@ useEffect(() => {
         dispatch({ type: AUTH_ACTIONS.SET_USER, payload: user });
       } catch (error) {
         console.error('Token verification failed:', error);
-        dispatch({ type: AUTH_ACTIONS.LOGOUT });
+        // Only logout on authentication errors (401), not network errors
+        if (error?.response?.status === 401 || error?.status === 401) {
+          dispatch({ type: AUTH_ACTIONS.LOGOUT });
+        }
       }
     }
   };

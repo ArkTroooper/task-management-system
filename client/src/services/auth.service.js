@@ -4,21 +4,24 @@ import { STORAGE_KEYS } from '../utils/constants';
 // Login user
 export const login = async (email, password) => {
   const response = await api.post('/auth/login', { email, password });
-  if (response.data.token) {
-    localStorage.setItem(STORAGE_KEYS.TOKEN, response.data.token);
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.data.user));
+  // Backend wraps in { success, data: { token, user } }
+  const { token, user } = response.data?.data || response.data || {};
+  if (token) {
+    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
   }
-  return response.data;
+  return response.data?.data || response.data;
 };
 
 // Register user
 export const register = async (username, email, password) => {
   const response = await api.post('/auth/register', { username, email, password });
-  if (response.data.token) {
-    localStorage.setItem(STORAGE_KEYS.TOKEN, response.data.token);
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.data.user));
+  const { token, user } = response.data?.data || response.data || {};
+  if (token) {
+    localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
   }
-  return response.data;
+  return response.data?.data || response.data;
 };
 
 // Logout user
